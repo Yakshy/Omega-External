@@ -21,6 +21,7 @@ Copyright (C) 2019 Damien Nicolet
   <title translate="TITLE"></title>
   <link rel="icon" type="image/png" href="images/external_icon.png">
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="libs/cropperjs/cropper.min.css">
   <link rel="stylesheet" href="index.css">
   <script src="libs/jquery/jquery.min.js"></script>
   <script src="libs/angularjs/angular.min.js"></script>
@@ -46,6 +47,13 @@ Copyright (C) 2019 Damien Nicolet
             <span class="badge badge-secondary badge-pill">{{selectedApps.length}}</span>
           </h4>
           <ul class="list-group mb-3">
+
+            <li class="list-group-item d-flex justify-content-between lh-condensed" ng-if="wallpaper.imagesrc != null">
+              <div class="my-auto">
+                <h6 class="my-0"><img ng-src="{{wallpaper.imagesrc}}" alt="" width="40" height="28" class="mr-3">{{wallpaper.name}}</h6>
+                </div>
+              <span><button class="btn btn-primary btn-sm" ng-click="removeWallpaper()" translate="REMOVE"></button></span>
+            </li>
 
             <li class="list-group-item d-flex justify-content-between lh-condensed" ng-repeat="app in selectedApps">
               <div class="my-auto">
@@ -87,6 +95,15 @@ Copyright (C) 2019 Damien Nicolet
         </div>
 
         <div class="col-md-8 order-md-1">
+          <h4 class="mb-3" translate="WALLPAPER"></h4>
+          <div class="card p-2 mb-3">
+            <div>
+              <div class="custom-file">
+                <input id="wallpaper-file-input" type="file" accept="image" class="custom-file-input" lang="{{locale}}" ng-wallpaper-select>
+                <label class="custom-file-label" id="wallpaper-name" translate="WALLPAPER_FILE"></label>
+                </div> 
+            </div>
+          </div>
           <h4 class="mb-3" translate="AVAILABLE_APPLICATIONS"></h4>
             <div class="row pb-3">
               <div class="col-md-12">
@@ -129,6 +146,27 @@ Copyright (C) 2019 Damien Nicolet
         </div>
       </div>
 
+      <div class="modal" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog-lg m-5" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{ 'CROP_IMAGE_TITLE' | translate }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="cropperDiv">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'CROP_IMAGE_CANCEL' | translate }}</button>
+              <button type="button" class="btn btn-primary" ng-click="saveCroppedWallpaper()">{{ 'CROP_IMAGE_SAVE' | translate }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1" translate="ACKNOWLEDGMENTS"></p>
         <ul class="list-inline">
@@ -136,6 +174,7 @@ Copyright (C) 2019 Damien Nicolet
           <li class="list-inline-item"><a href="https://github.com/devanlai/webdfu">webdfu</a></li>
           <li class="list-inline-item"><a href="https://www.gnu.org/software/binutils/">GNU Binutils</a></li>
           <li class="list-inline-item"><a href="https://emscripten.org/">emscripten</a></li>
+          <li class="list-inline-item"><a href="https://fengyuanchen.github.io/cropperjs/">cropperjs</a></li>
         </ul>
       </footer>
     </div>
@@ -146,9 +185,11 @@ Copyright (C) 2019 Damien Nicolet
     <script src="libs/webdfu/dfu-util/dfuse.js"></script>
     <script src="libs/angularjs/angular-sanitize.min.js"></script>
     <script src="libs/angular-translate/angular-translate.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
     <script src="libs/lz4js/util.js"></script>
     <script src="libs/lz4js/xxh32.js"></script>
     <script src="libs/lz4js/lz4.js"></script>
+    <script src="libs/cropperjs/cropper.min.js"></script>
     <script src="index.js"></script>
     <script src="apps/apps.js"></script>
   </body>
